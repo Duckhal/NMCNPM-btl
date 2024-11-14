@@ -196,6 +196,11 @@ public class HeThong extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Yu Gothic Light", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Delete Room");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -329,7 +334,7 @@ public class HeThong extends javax.swing.JFrame {
 
         jLabel17.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel17.setText("Status");
+        jLabel17.setText("Type");
 
         Status.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
         Status.setForeground(new java.awt.Color(0, 153, 153));
@@ -447,12 +452,9 @@ public class HeThong extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1)
-                        .addContainerGap())))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -526,12 +528,16 @@ public class HeThong extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
         String username = "root";
-        String password = "";   
+        String password = ""; 
+        java.sql.Connection conn = null;
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            conn.setAutoCommit(false);
             String query1 = "INSERT INTO Customer(customer_id,name_customer,gender,birthday,phone,email,address) values(?,?,?,?,?,?,?)";
             String query2 = "INSERT INTO Booking(room_number,customer_id,check_in_date,check_out_date,total_price,statuss) values (?,?,?,?,?,?)";
+            String query3 = "SELECT * FROM Room WHERE room_number = ? AND room_type = ?";
+            String query4 = "UPDATE Room SET statuss = ? WHERE room_number = ?";
             
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             int customerID = Integer.parseInt(CustomerID.getText());
@@ -545,40 +551,134 @@ public class HeThong extends javax.swing.JFrame {
             String check_in_date = dateFormat.format(Check_in_date.getDate());
             String check_out_date = dateFormat.format(Check_out_date.getDate());
             
-            String status = (String) Status.getSelectedItem();
+            String type = (String) Status.getSelectedItem();
             float total_price = Float.parseFloat(Total_price.getText());
             
-            PreparedStatement statement1 = conn.prepareStatement(query1);
-            statement1.setInt(1,customerID);
-            statement1.setString(2,name);
-            statement1.setString(3,gender);
-            statement1.setDate(4,java.sql.Date.valueOf(dob));
-            statement1.setString(5,phone);
-            statement1.setString(6,email);
-            statement1.setString(7,address);
+            PreparedStatement statement3 = conn.prepareStatement(query3);
+            statement3.setString(1,room_number);
+            statement3.setString(2,type);
+            ResultSet resultSet = statement3.executeQuery();
+            
+            if(resultSet.next()&& !"Booked".equals(resultSet.getString("statuss"))){
+                PreparedStatement statement1 = conn.prepareStatement(query1);
+                statement1.setInt(1,customerID);
+                statement1.setString(2,name);
+                statement1.setString(3,gender);
+                statement1.setDate(4,java.sql.Date.valueOf(dob));
+                statement1.setString(5,phone);
+                statement1.setString(6,email);
+                statement1.setString(7,address);
+                int rowsAffected1 = statement1.executeUpdate();      
+             
+                PreparedStatement statement2 = conn.prepareStatement(query2);
+                statement2.setString(1,room_number);
+                statement2.setInt(2,customerID);
+                statement2.setDate(3,java.sql.Date.valueOf(check_in_date));
+                statement2.setDate(4,java.sql.Date.valueOf(check_out_date));
+                statement2.setFloat(5,total_price);
+                String tmp = "Booked";
+                statement2.setString(6,tmp);
+                int rowsAffected2 = statement2.executeUpdate();
+                
+                PreparedStatement statement4 = conn.prepareStatement(query4);
+                statement4.setString(1,"Booked");
+                statement4.setString(2,room_number);
+                int rowsAffected4 = statement4.executeUpdate();
+                     
+                if(rowsAffected1 > 0  && rowsAffected2 > 0 && rowsAffected4 > 0){
+                    JOptionPane.showMessageDialog(this, "Booking room sucessful!");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this,"Booking room failed!");
+                }
+                conn.commit();
+            }
+            else if(resultSet.next()&& "Booked".equals(resultSet.getString("statuss"))){
+                JOptionPane.showMessageDialog(this,"This room is booked,please book again!");
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Not exist room or invalid type,please enter again!");
+            }
+        }catch (Exception e) {
+            // Nếu có lỗi, rollback thay đổi
+            if (conn != null) {
+                try {
+                    JOptionPane.showMessageDialog(this,"Please fill in full information!");
+                    conn.rollback();
+                }catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        }finally {
+            // Đóng tài nguyên
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        String username = "root";
+        String password = ""; 
+        java.sql.Connection conn = null;
+        try{
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            conn.setAutoCommit(false);
+            String query1 = "DELETE FROM Customer WHERE customer_id = ?";
+            String query2 = "DELETE FROM Booking WHERE room_number = ?";  
+            String query3 = "UPDATE Room SET statuss = ? WHERE room_number = ?";
             
             PreparedStatement statement2 = conn.prepareStatement(query2);
+            String room_number = Room_number.getText();
             statement2.setString(1,room_number);
-            statement2.setInt(2,customerID);
-            statement2.setDate(3,java.sql.Date.valueOf(check_in_date));
-            statement2.setDate(4,java.sql.Date.valueOf(check_out_date));
-            statement2.setFloat(5,total_price);
-            statement2.setString(6,status); 
-            
-            int rowsAffected1 = statement1.executeUpdate();
             int rowsAffected2 = statement2.executeUpdate();
-            if(rowsAffected1 > 0  && rowsAffected2 > 0){
-                JOptionPane.showMessageDialog(this, "Dat phong thanh cong");
+            
+            PreparedStatement statement1 = conn.prepareStatement(query1);
+            int customer_id = Integer.parseInt(CustomerID.getText());
+            statement1.setInt(1,customer_id);
+            int rowsAffected1 = statement1.executeUpdate();
+            
+            PreparedStatement statement3 = conn.prepareStatement(query3);
+            String tmp = "Free";
+            statement3.setString(1, tmp);
+            statement3.setString(2, room_number);
+            int rowsAffected3 = statement3.executeUpdate();
+            
+            if(rowsAffected1 > 0  && rowsAffected2 > 0 && rowsAffected3 > 0){
+                JOptionPane.showMessageDialog(this, "Huy phong thanh cong");
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Huy phong that bai!");
             }
             
-            conn.close();
+            conn.commit();
+            //conn.close();
+        }catch (Exception e) {
+            // Nếu có lỗi, rollback thay đổi
+            if (conn != null) {
+                try {
+                    JOptionPane.showMessageDialog(this,"Huy phong that bai!");
+                    conn.rollback();
+                }catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        }finally {
+            // Đóng tài nguyên
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HeThong.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -656,4 +756,8 @@ public class HeThong extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
+
+    private PreparedStatement prepareStatement(String query1) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
