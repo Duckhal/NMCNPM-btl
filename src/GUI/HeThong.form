@@ -698,11 +698,9 @@
                       <Color blue="99" green="99" red="0" type="rgb"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Vip"/>
-                        <StringItem index="1" value="Double Bed"/>
-                        <StringItem index="2" value="Single Bed"/>
-                        <StringItem index="3" value="Family"/>
+                      <StringArray count="2">
+                        <StringItem index="0" value="double room"/>
+                        <StringItem index="1" value="single room"/>
                       </StringArray>
                     </Property>
                   </Properties>

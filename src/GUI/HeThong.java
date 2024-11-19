@@ -338,7 +338,7 @@ public class HeThong extends javax.swing.JFrame {
 
         Status.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
         Status.setForeground(new java.awt.Color(0, 153, 153));
-        Status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vip", "Double Bed", "Single Bed", "Family" }));
+        Status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "double room", "single room" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -559,7 +559,7 @@ public class HeThong extends javax.swing.JFrame {
             statement3.setString(2,type);
             ResultSet resultSet = statement3.executeQuery();
             
-            if(resultSet.next()&& !"Booked".equals(resultSet.getString("statuss"))){
+            if(resultSet.next()&& "Available".equals(resultSet.getString("statuss"))){
                 PreparedStatement statement1 = conn.prepareStatement(query1);
                 statement1.setInt(1,customerID);
                 statement1.setString(2,name);
@@ -593,7 +593,7 @@ public class HeThong extends javax.swing.JFrame {
                 }
                 conn.commit();
             }
-            else if(resultSet.next()&& "Booked".equals(resultSet.getString("statuss"))){
+            else if("Booked".equals(resultSet.getString("statuss"))){
                 JOptionPane.showMessageDialog(this,"This room is booked,please book again!");
             }
             else{
@@ -644,7 +644,7 @@ public class HeThong extends javax.swing.JFrame {
             int rowsAffected1 = statement1.executeUpdate();
             
             PreparedStatement statement3 = conn.prepareStatement(query3);
-            String tmp = "Free";
+            String tmp = "Available";
             statement3.setString(1, tmp);
             statement3.setString(2, room_number);
             int rowsAffected3 = statement3.executeUpdate();
