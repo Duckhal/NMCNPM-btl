@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,6 +27,7 @@ public class HeThong extends javax.swing.JFrame {
      */
     public HeThong() {
         initComponents();
+
     }
 
     /**
@@ -42,7 +44,6 @@ public class HeThong extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -59,7 +60,6 @@ public class HeThong extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         Gender = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        Check_in_date = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         Phone = new javax.swing.JTextField();
@@ -69,13 +69,32 @@ public class HeThong extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         Total_price = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        Birth_day = new com.toedter.calendar.JDateChooser();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        Check_out_date = new com.toedter.calendar.JDateChooser();
         Room_number = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         Status = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        serviceTable = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        txtDescription = new javax.swing.JTextField();
+        txtTotalPrice = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        cmbServices = new javax.swing.JComboBox<>();
+        desciption = new javax.swing.JLabel();
+        txtCustomerId = new javax.swing.JTextField();
+        jLablePrice = new javax.swing.JLabel();
+        txtQuantity = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,28 +139,15 @@ public class HeThong extends javax.swing.JFrame {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1127, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Đặt dịch vụ", jPanel4);
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1127, Short.MAX_VALUE)
+            .addGap(0, 1603, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 1015, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Nhân viên", jPanel5);
@@ -150,11 +156,11 @@ public class HeThong extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1127, Short.MAX_VALUE)
+            .addGap(0, 1603, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 1015, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Kho", jPanel6);
@@ -163,11 +169,11 @@ public class HeThong extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1127, Short.MAX_VALUE)
+            .addGap(0, 1603, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 1015, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Thống kê", jPanel7);
@@ -255,13 +261,15 @@ public class HeThong extends javax.swing.JFrame {
         Gender.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
         Gender.setForeground(new java.awt.Color(0, 153, 153));
         Gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        Gender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GenderActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 153, 153));
         jLabel9.setText("Birth day");
-
-        Check_in_date.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Check_in_date.setForeground(new java.awt.Color(0, 153, 153));
 
         jLabel10.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 153, 153));
@@ -311,9 +319,6 @@ public class HeThong extends javax.swing.JFrame {
         jLabel14.setForeground(new java.awt.Color(0, 153, 153));
         jLabel14.setText("Total price");
 
-        Birth_day.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Birth_day.setForeground(new java.awt.Color(0, 153, 153));
-
         jLabel15.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 153, 153));
         jLabel15.setText("Check in date");
@@ -321,9 +326,6 @@ public class HeThong extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 153, 153));
         jLabel16.setText("Check out date");
-
-        Check_out_date.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Check_out_date.setForeground(new java.awt.Color(0, 153, 153));
 
         Room_number.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
         Room_number.addActionListener(new java.awt.event.ActionListener() {
@@ -363,14 +365,11 @@ public class HeThong extends javax.swing.JFrame {
                     .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Address, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 613, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Birth_day, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Check_in_date, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Check_out_date, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Total_price, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -409,21 +408,16 @@ public class HeThong extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel11))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(Birth_day, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(53, 53, 53)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Room_number, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Check_in_date, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(59, 59, 59)
                         .addComponent(jLabel16)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Check_out_date, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Phone, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(Phone, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
@@ -440,10 +434,242 @@ public class HeThong extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Address, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Total_price, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(514, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Đặt phòng", jPanel3);
+
+        serviceTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Customer ID", "Service Name", "Quantity", "Total Price"
+            }
+        ));
+        jScrollPane1.setViewportView(serviceTable);
+
+        jScrollPane2.setViewportView(jScrollPane1);
+
+        jLabel18.setText("Service Name");
+
+        jLabel19.setText("Customer ID");
+
+        jLabel20.setText("Quantity");
+
+        jLabel21.setText("Total Price");
+
+        txtDescription.setAutoscrolls(false);
+        txtDescription.setMaximumSize(new java.awt.Dimension(387, 2147483647));
+        txtDescription.setMinimumSize(new java.awt.Dimension(387, 2147483647));
+        txtDescription.setPreferredSize(new java.awt.Dimension(387, 22));
+
+        txtTotalPrice.setAutoscrolls(false);
+        txtTotalPrice.setMaximumSize(new java.awt.Dimension(387, 2147483647));
+        txtTotalPrice.setMinimumSize(new java.awt.Dimension(387, 2147483647));
+        txtTotalPrice.setPreferredSize(new java.awt.Dimension(387, 22));
+        txtTotalPrice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalPriceActionPerformed(evt);
+            }
+        });
+
+        btnAdd.setText("Add Booking");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setText("Update Booking");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnClear.setText("Clear Fields");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete Booking");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        cmbServices.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Snacks", "Fruits", "Beverages", "Sport equipment", "Party time", "Room cleaning" }));
+        cmbServices.setMaximumSize(new java.awt.Dimension(387, 2147483647));
+        cmbServices.setMinimumSize(new java.awt.Dimension(387, 2147483647));
+        cmbServices.setPreferredSize(new java.awt.Dimension(387, 22));
+        cmbServices.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                cmbServicesComponentShown(evt);
+            }
+        });
+        cmbServices.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                cmbServicesInputMethodTextChanged(evt);
+            }
+        });
+        cmbServices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbServicesActionPerformed(evt);
+            }
+        });
+
+        desciption.setText("Desciption");
+
+        txtCustomerId.setAutoscrolls(false);
+        txtCustomerId.setMaximumSize(new java.awt.Dimension(387, 2147483647));
+        txtCustomerId.setMinimumSize(new java.awt.Dimension(387, 2147483647));
+        txtCustomerId.setPreferredSize(new java.awt.Dimension(387, 22));
+
+        jLablePrice.setText("Price");
+
+        txtQuantity.setAutoscrolls(false);
+        txtQuantity.setMaximumSize(new java.awt.Dimension(387, 2147483647));
+        txtQuantity.setMinimumSize(new java.awt.Dimension(387, 2147483647));
+        txtQuantity.setPreferredSize(new java.awt.Dimension(387, 22));
+        txtQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQuantityActionPerformed(evt);
+            }
+        });
+
+        txtPrice.setAutoscrolls(false);
+        txtPrice.setMaximumSize(new java.awt.Dimension(387, 2147483647));
+        txtPrice.setMinimumSize(new java.awt.Dimension(387, 2147483647));
+        txtPrice.setPreferredSize(new java.awt.Dimension(387, 22));
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(desciption, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLablePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbServices, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCustomerId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTotalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(txtCustomerId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbServices, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(desciption, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLablePrice)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(txtTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClear)
+                    .addComponent(btnAdd)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addGap(73, 73, 73))
+        );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(288, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
+                .addContainerGap(492, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Đặt dịch vụ", jPanel4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -528,9 +754,9 @@ public class HeThong extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
         String username = "root";
-        String password = ""; 
+        String password = "";
         java.sql.Connection conn = null;
-        try{
+        try {
             //Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
             conn.setAutoCommit(false);
@@ -538,7 +764,7 @@ public class HeThong extends javax.swing.JFrame {
             String query2 = "INSERT INTO Booking(room_number,customer_id,check_in_date,check_out_date,total_price,statuss) values (?,?,?,?,?,?)";
             String query3 = "SELECT * FROM Room WHERE room_number = ? AND room_type = ?";
             String query4 = "UPDATE Room SET statuss = ? WHERE room_number = ?";
-            
+
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             int customerID = Integer.parseInt(CustomerID.getText());
             String name = Name.getText();
@@ -550,70 +776,69 @@ public class HeThong extends javax.swing.JFrame {
             String room_number = Room_number.getText();
             String check_in_date = dateFormat.format(Check_in_date.getDate());
             String check_out_date = dateFormat.format(Check_out_date.getDate());
-            
+
             String type = (String) Status.getSelectedItem();
             float total_price = Float.parseFloat(Total_price.getText());
-            
+
             PreparedStatement statement3 = conn.prepareStatement(query3);
-            statement3.setString(1,room_number);
-            statement3.setString(2,type);
+            statement3.setString(1, room_number);
+            statement3.setString(2, type);
             ResultSet resultSet = statement3.executeQuery();
-            
-            if(resultSet.next()&& "Available".equals(resultSet.getString("statuss"))){
+
+            if (resultSet.next() && "Available".equals(resultSet.getString("statuss"))) {
                 PreparedStatement statement1 = conn.prepareStatement(query1);
-                statement1.setInt(1,customerID);
-                statement1.setString(2,name);
-                statement1.setString(3,gender);
-                statement1.setDate(4,java.sql.Date.valueOf(dob));
-                statement1.setString(5,phone);
-                statement1.setString(6,email);
-                statement1.setString(7,address);
-                int rowsAffected1 = statement1.executeUpdate();      
-             
+                statement1.setInt(1, customerID);
+                statement1.setString(2, name);
+                statement1.setString(3, gender);
+                statement1.setDate(4, java.sql.Date.valueOf(dob));
+                statement1.setString(5, phone);
+                statement1.setString(6, email);
+                statement1.setString(7, address);
+                int rowsAffected1 = statement1.executeUpdate();
+
                 PreparedStatement statement2 = conn.prepareStatement(query2);
-                statement2.setString(1,room_number);
-                statement2.setInt(2,customerID);
-                statement2.setDate(3,java.sql.Date.valueOf(check_in_date));
-                statement2.setDate(4,java.sql.Date.valueOf(check_out_date));
-                statement2.setFloat(5,total_price);
+                statement2.setString(1, room_number);
+                statement2.setInt(2, customerID);
+                statement2.setDate(3, java.sql.Date.valueOf(check_in_date));
+                statement2.setDate(4, java.sql.Date.valueOf(check_out_date));
+                statement2.setFloat(5, total_price);
                 String tmp = "Booked";
-                statement2.setString(6,tmp);
+                statement2.setString(6, tmp);
                 int rowsAffected2 = statement2.executeUpdate();
-                
+
                 PreparedStatement statement4 = conn.prepareStatement(query4);
-                statement4.setString(1,"Booked");
-                statement4.setString(2,room_number);
+                statement4.setString(1, "Booked");
+                statement4.setString(2, room_number);
                 int rowsAffected4 = statement4.executeUpdate();
-                     
-                if(rowsAffected1 > 0  && rowsAffected2 > 0 && rowsAffected4 > 0){
+
+                if (rowsAffected1 > 0 && rowsAffected2 > 0 && rowsAffected4 > 0) {
                     JOptionPane.showMessageDialog(this, "Booking room sucessful!");
-                }
-                else{
-                    JOptionPane.showMessageDialog(this,"Booking room failed!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Booking room failed!");
                 }
                 conn.commit();
+            } else if ("Booked".equals(resultSet.getString("statuss"))) {
+                JOptionPane.showMessageDialog(this, "This room is booked,please book again!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Not exist room or invalid type,please enter again!");
             }
-            else if("Booked".equals(resultSet.getString("statuss"))){
-                JOptionPane.showMessageDialog(this,"This room is booked,please book again!");
-            }
-            else{
-                JOptionPane.showMessageDialog(this,"Not exist room or invalid type,please enter again!");
-            }
-        }catch (Exception e) {
+        } catch (Exception e) {
             // Nếu có lỗi, rollback thay đổi
             if (conn != null) {
                 try {
-                    JOptionPane.showMessageDialog(this,"Please fill in full information!");
+                    JOptionPane.showMessageDialog(this, "Please fill in full information!");
                     conn.rollback();
-                }catch (SQLException ex) {
+                } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
             e.printStackTrace();
-        }finally {
+        } finally {
             // Đóng tài nguyên
             try {
-                if (conn != null) conn.close();
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -623,62 +848,353 @@ public class HeThong extends javax.swing.JFrame {
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
         String username = "root";
-        String password = ""; 
+        String password = "";
         java.sql.Connection conn = null;
-        try{
+        try {
             //Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
             conn.setAutoCommit(false);
             String query1 = "DELETE FROM Customer WHERE customer_id = ?";
-            String query2 = "DELETE FROM Booking WHERE room_number = ?";  
+            String query2 = "DELETE FROM Booking WHERE room_number = ?";
             String query3 = "UPDATE Room SET statuss = ? WHERE room_number = ?";
-            
+
             PreparedStatement statement2 = conn.prepareStatement(query2);
             String room_number = Room_number.getText();
-            statement2.setString(1,room_number);
+            statement2.setString(1, room_number);
             int rowsAffected2 = statement2.executeUpdate();
-            
+
             PreparedStatement statement1 = conn.prepareStatement(query1);
             int customer_id = Integer.parseInt(CustomerID.getText());
-            statement1.setInt(1,customer_id);
+            statement1.setInt(1, customer_id);
             int rowsAffected1 = statement1.executeUpdate();
-            
+
             PreparedStatement statement3 = conn.prepareStatement(query3);
             String tmp = "Available";
             statement3.setString(1, tmp);
             statement3.setString(2, room_number);
             int rowsAffected3 = statement3.executeUpdate();
-            
-            if(rowsAffected1 > 0  && rowsAffected2 > 0 && rowsAffected3 > 0){
+
+            if (rowsAffected1 > 0 && rowsAffected2 > 0 && rowsAffected3 > 0) {
                 JOptionPane.showMessageDialog(this, "Huy phong thanh cong");
+            } else {
+                JOptionPane.showMessageDialog(this, "Huy phong that bai!");
             }
-            else{
-                JOptionPane.showMessageDialog(this,"Huy phong that bai!");
-            }
-            
+
             conn.commit();
             //conn.close();
-        }catch (Exception e) {
+        } catch (Exception e) {
             // Nếu có lỗi, rollback thay đổi
             if (conn != null) {
                 try {
-                    JOptionPane.showMessageDialog(this,"Huy phong that bai!");
+                    JOptionPane.showMessageDialog(this, "Huy phong that bai!");
                     conn.rollback();
-                }catch (SQLException ex) {
+                } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
             e.printStackTrace();
-        }finally {
+        } finally {
             // Đóng tài nguyên
             try {
-                if (conn != null) conn.close();
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        
+
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void GenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GenderActionPerformed
+
+    private void txtQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (!txtPrice.getText().isEmpty() && !txtQuantity.getText().isEmpty()) {
+                double price = Double.parseDouble(txtPrice.getText());
+                int quantity = Integer.parseInt(txtQuantity.getText());
+
+                // Calculate total price
+                double totalPrice = price * quantity;
+                txtTotalPrice.setText(String.valueOf(totalPrice));  // Display total price
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter valid numbers for both price and quantity.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers for price and quantity.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtQuantityActionPerformed
+
+    private void cmbServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbServicesActionPerformed
+        // TODO add your handling code here:
+        // ActionListener for JComboBox (cmbServices)
+        String selectedService = (String) cmbServices.getSelectedItem();
+        String description = getServiceDescription(selectedService);
+        double price = getServicePrice(selectedService);
+        txtDescription.setText(description);
+        txtPrice.setText(String.valueOf(price));
+    }//GEN-LAST:event_cmbServicesActionPerformed
+
+    private void cmbServicesInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_cmbServicesInputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbServicesInputMethodTextChanged
+
+    private void cmbServicesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_cmbServicesComponentShown
+
+    }//GEN-LAST:event_cmbServicesComponentShown
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        String username = "root";
+        String password = "";
+        java.sql.Connection conn = null;
+
+        String customerId = txtCustomerId.getText();
+        String serviceName = (String) cmbServices.getSelectedItem();
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            String query = "DELETE FROM Service_Usage WHERE customer_id=? AND service_name= ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, Integer.parseInt(customerId));
+            stmt.setString(2, serviceName);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Service booking deleted successfully.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Service booking deleted unsuccessfully.");
+            }
+            loadTableData();
+            txtCustomerId.setText("");
+            txtQuantity.setText("");
+            txtTotalPrice.setText("");
+            txtPrice.setText("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        } finally {
+            // Close the connection
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        txtCustomerId.setText("");
+        txtQuantity.setText("");
+        txtTotalPrice.setText("");
+        txtPrice.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        String username = "root";
+        String password = "";
+        java.sql.Connection conn = null;
+
+        String customerId = txtCustomerId.getText();
+        String serviceName = (String) cmbServices.getSelectedItem();
+        String quantity = txtQuantity.getText();
+        String totalPrice = txtTotalPrice.getText();
+
+        try {
+            // Connect to the database
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            String query = "UPDATE Service_Usage SET quantity=?,total_price=? WHERE customer_id=? AND service_name= ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, Integer.parseInt(quantity));
+            stmt.setDouble(2, Double.parseDouble(totalPrice));
+            stmt.setInt(3, Integer.parseInt(customerId));
+            stmt.setString(4, serviceName);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Service booking updated successfully.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No booking found with the given customer ID and service name.");
+            }
+            loadTableData();
+            txtCustomerId.setText("");
+            txtQuantity.setText("");
+            txtTotalPrice.setText("");
+            txtPrice.setText("");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        } finally {
+            // Close the connection
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Get the input values
+        String username = "root";
+        String password = "";
+        java.sql.Connection conn = null;
+
+        String customerId = txtCustomerId.getText();
+        String serviceName = (String) cmbServices.getSelectedItem();
+        String quantity = txtQuantity.getText();
+        String totalPrice = txtTotalPrice.getText();
+
+        // Validate that fields are not empty
+        if (customerId.isEmpty() || serviceName.isEmpty() || quantity.isEmpty() || totalPrice.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields.");
+            return;
+        }
+
+        try {
+            // Connect to the database
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+
+            // Prepare and execute the insert query
+            String query = "INSERT INTO Service_Usage (customer_id, service_name, quantity, total_price) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, Integer.parseInt(customerId));  // Parse customer ID to int
+            stmt.setString(2, serviceName);                 // Use service name directly
+            stmt.setInt(3, Integer.parseInt(quantity));     // Parse quantity to int
+            stmt.setDouble(4, Double.parseDouble(totalPrice)); // Parse total price to double
+
+            // Execute the query
+            int row = stmt.executeUpdate();
+
+            // Show success or failure message
+            if (row > 0) {
+                JOptionPane.showMessageDialog(this, "Booking Added!!!");
+                loadTableData();
+            } else {
+                JOptionPane.showMessageDialog(this, "No booking was added. Please try again.");
+            }
+            txtCustomerId.setText("");
+            txtQuantity.setText("");
+            txtTotalPrice.setText("");
+            txtPrice.setText("");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        } finally {
+            // Close the connection
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void txtTotalPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalPriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalPriceActionPerformed
+    private double getServicePrice(String serviceName) {
+        String username = "root";
+        String password = "";
+        java.sql.Connection conn = null;
+        double price = 0.0;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            String query = "SELECT price FROM Service WHERE service_name= ? ";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, serviceName);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                price = rs.getDouble("price");
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return price;
+    }
+
+    private String getServiceDescription(String serviceName) {
+        String username = "root";
+        String password = "";
+        java.sql.Connection conn = null;
+        String description = "";
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            String query = "SELECT description FROM Service WHERE service_name = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, serviceName);
+
+            // Execute the query and get the result
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                description = rs.getString("description"); // Fetch the description
+                System.out.println("Description fetched: " + description); // Debug message
+            } else {
+                System.out.println("No description found for service: " + serviceName); // Debug message
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return description;
+
+    }
+    private void loadTableData() {
+        String username = "root";
+        String password = "";
+        java.sql.Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nmcnpm_btl", username, password);
+            String query = "SELECT * FROM Service_Usage";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) serviceTable.getModel();
+            model.setRowCount(0); // Clear existing rows
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("customer_id"),
+                    rs.getString("service_name"),
+                    rs.getInt("quantity"),
+                    rs.getDouble("total_price")
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -717,9 +1233,6 @@ public class HeThong extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Address;
-    private com.toedter.calendar.JDateChooser Birth_day;
-    private com.toedter.calendar.JDateChooser Check_in_date;
-    private com.toedter.calendar.JDateChooser Check_out_date;
     private javax.swing.JTextField CustomerID;
     private javax.swing.JTextField Email;
     private javax.swing.JComboBox<String> Gender;
@@ -728,6 +1241,12 @@ public class HeThong extends javax.swing.JFrame {
     private javax.swing.JTextField Room_number;
     private javax.swing.JComboBox<String> Status;
     private javax.swing.JTextField Total_price;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbServices;
+    private javax.swing.JLabel desciption;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -738,7 +1257,11 @@ public class HeThong extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -746,6 +1269,7 @@ public class HeThong extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLablePrice;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -754,7 +1278,16 @@ public class HeThong extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable serviceTable;
+    private javax.swing.JTextField txtCustomerId;
+    private javax.swing.JTextField txtDescription;
+    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtQuantity;
+    private javax.swing.JTextField txtTotalPrice;
     // End of variables declaration//GEN-END:variables
 
     private PreparedStatement prepareStatement(String query1) {
